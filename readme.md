@@ -14,14 +14,18 @@ _02_ and _03_ draws the Basic pattern that can be adapted to solve many ML probl
 - Visualization
 
 `_02_framework_for_ML_example_titanic_classification_regression_Pclass_as_target_variable.py` demonstrates a machine learning pipeline for predicting passenger class (Pclass) on the Titanic dataset. The code covers data preprocessing, model training, evaluation, and visualization.
+`_02a_framework_for_ML_example_titanic_classification_regression_Survived_as_target_variable.py` predicts target variable: `Survived`.
 
 ![_02_framework_for_ML_example_titanic_classification_regression_Pclass_as_target_variable](_02_framework_for_ML_example_titanic_classification_regression_Pclass_as_target_variable.png)
+
+![_02a_framework_for_ML_example_titanic_classification_regression_Survived_as_target_variable](_02a_framework_for_ML_example_titanic_classification_regression_Survived_as_target_variable.png)
 
 
 `_03_framework_for_ML_example_titanic_classification_regression.py` demonstrates a machine learning pipeline for predicting any variable target on the Titanic dataset. 
 
 #### Files
 `_02_framework_for_ML_example_titanic_classification_regression_Pclass_as_target_variable.py
+
 ##### Description
 - Data Loading: Load the Titanic dataset from a CSV file.
 - Feature and Target Selection: Choose Pclass as the target variable and relevant features for the model. `_03_framework_for_ML_example_titanic_classification_regression.py` may use other target variable.
