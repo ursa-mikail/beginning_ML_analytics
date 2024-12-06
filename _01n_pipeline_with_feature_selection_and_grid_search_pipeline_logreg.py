@@ -9,6 +9,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
 from sklearn.pipeline import make_pipeline
 
+data_url_train = 'https://raw.githubusercontent.com/justmarkham/pandas-videos/master/data/titanic_train.csv'
+data_url_test = 'https://raw.githubusercontent.com/justmarkham/pandas-videos/master/data/titanic_test.csv'
+df = pd.read_csv(data_url_train)
+
 X = df[['Parch', 'Fare', 'Embarked', 'Sex', 'Name', 'Age']]
 y = df['Survived']
 imp_constant = SimpleImputer(strategy='constant')
