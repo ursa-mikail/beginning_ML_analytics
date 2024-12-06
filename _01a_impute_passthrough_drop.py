@@ -66,3 +66,48 @@ Transformed DataFrame (impute A, drop D & E, passthrough others):
 1  2.0  20.0  200.0
 2  1.5  30.0  300.0
 """
+
+# imputer_demo.py
+
+import pandas as pd
+import numpy as np
+from sklearn.impute import SimpleImputer
+
+# Dataset with missing values
+X = pd.DataFrame({'Shape': ['square', 'square', 'oval', 'circle', np.nan]})
+print("Original Data:")
+print(X)
+
+# Impute using most frequent strategy
+imputer = SimpleImputer(strategy='most_frequent')
+ans = imputer.fit_transform(X)
+print("Imputed Data (Most Frequent):")
+print(ans)
+
+# Impute using constant strategy
+imputer = SimpleImputer(strategy='constant', fill_value='missing')
+ans = imputer.fit_transform(X)
+print("Imputed Data (Constant):")
+print(ans)
+
+"""
+Original Data:
+    Shape
+0  square
+1  square
+2    oval
+3  circle
+4     NaN
+Imputed Data (Most Frequent):
+[['square']
+ ['square']
+ ['oval']
+ ['circle']
+ ['square']]
+Imputed Data (Constant):
+[['square']
+ ['square']
+ ['oval']
+ ['circle']
+ ['missing']]
+""" 
