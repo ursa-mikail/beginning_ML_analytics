@@ -134,5 +134,22 @@ clf = LogisticRegression(solver='liblinear', random_state=1)
 pipe = make_pipeline(ct, clf)
 
 # Cross-validate the pipeline
-ans = cross_val_score(pipe, X, y, cv=5, scoring='accuracy').mean()
+ans = cross_val_score(pipe, X, y, cv=5, scoring='accuracy').mean() # cross-validate the pipeline, 4/5 train, 1/5 test (predict)
 print(ans) # 0.8024543343167408
+
+# specify parameter values to search (params are a separate topic)
+params = {}
+params['columntransformer__countvectorizer__min_df'] = [1, 2]
+params['logisticregression__C'] = [0.1, 1, 10]
+params['logisticregression__penalty'] = ['l1', 'l2']
+# try all possible combinations of those parameter values
+from sklearn.model_selection import GridSearchCV
+
+grid = GridSearchCV(pipe, params, cv=5, scoring='accuracy') # search with combinatorics on the given the above params to find the optimal
+grid.fit(X, y);
+
+# convert results into a DataFrame
+results = pd.DataFrame(grid.cv_results_)[['params', 'mean_test_score', 'rank_test_score']]
+
+# sort by test score
+results.sort_values('rank_test_score') 
