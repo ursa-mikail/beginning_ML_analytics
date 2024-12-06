@@ -1,11 +1,11 @@
 import pandas as pd
 
-data_url = 'https://raw.githubusercontent.com/justmarkham/pandas-videos/master/data/titanic_train.csv'
+data_url_train = 'https://raw.githubusercontent.com/justmarkham/pandas-videos/master/data/titanic_train.csv'
+data_url_test = 'https://raw.githubusercontent.com/justmarkham/pandas-videos/master/data/titanic_test.csv'
  
-df = pd.read_csv(data_url) 
+df = pd.read_csv(data_url_train) 
 
-# Count the number of rows in the dataset
-number_of_rows_to_read = len(df)
+number_of_rows_to_read = len(df) # Count the number of rows in the dataset
 
 header = df.columns.tolist()    # Get the header (column names)
 data = df.values.tolist()       # Get the data as a list of lists
@@ -55,10 +55,10 @@ import joblib
 
 # Load datasets
 cols = ['Embarked', 'Sex']
-df = pd.read_csv('https://raw.githubusercontent.com/justmarkham/pandas-videos/master/data/titanic_train.csv', nrows=10)
+df = pd.read_csv(data_url_train, nrows=10)
 X = df[cols]
 y = df['Survived']
-df_new = pd.read_csv('https://raw.githubusercontent.com/justmarkham/pandas-videos/master/data/titanic_test.csv', nrows=10)
+df_new = pd.read_csv(data_url_test, nrows=10)
 X_new = df_new[cols]
 
 # Create and fit pipeline
@@ -79,3 +79,60 @@ predictions = same_pipe.predict(X_new)
 print(predictions)
 
 # [0 1 0 0 1 0 1 0 1 0]
+
+from sklearn.pipeline import Pipeline
+
+# Load dataset
+df = pd.read_csv(data_url_train, usecols=['Embarked', 'Survived']).dropna()
+X = df[['Embarked']]
+y = df['Survived']
+
+# Create and fit pipeline
+pipe = Pipeline([('ohe', OneHotEncoder()), ('clf', LogisticRegression())])
+pipe.fit(X, y)
+
+# Display model coefficients. 
+print(f"4 ways to display the model coefficients:")
+print(pipe.named_steps.clf.coef_)
+print(pipe.named_steps['clf'].coef_)
+print(pipe['clf'].coef_)
+step = 1
+print(pipe[step].coef_)
+
+"""
+4 ways to display the model coefficients:
+[[ 0.43735139 -0.20614895 -0.44031791]]
+[[ 0.43735139 -0.20614895 -0.44031791]]
+[[ 0.43735139 -0.20614895 -0.44031791]]
+[[ 0.43735139 -0.20614895 -0.44031791]]
+"""
+
+# pipeline_evaluation.py
+# pipeline_steps_demo.py: ways to examine the steps of a Pipeline
+# (Prefer method 1 since you can autocomplete the step & parameter names... though method 4 is short)
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.compose import make_column_transformer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import make_pipeline
+from sklearn.model_selection import cross_val_score
+
+# Load the preprocessed data (assuming loading_preprocessing.py has been run)
+df = pd.read_csv(data_url_train)
+df = df[['Survived', 'Age', 'Fare', 'Pclass', 'Sex', 'Name']]
+cols = ['Sex', 'Name']
+X = df[cols]
+y = df['Survived']
+
+# Define the column transformer and pipeline
+ohe = OneHotEncoder()
+vect = CountVectorizer()
+ct = make_column_transformer((ohe, ['Sex']), (vect, 'Name'))
+
+clf = LogisticRegression(solver='liblinear', random_state=1)
+pipe = make_pipeline(ct, clf)
+
+# Cross-validate the pipeline
+ans = cross_val_score(pipe, X, y, cv=5, scoring='accuracy').mean()
+print(ans) # 0.8024543343167408
