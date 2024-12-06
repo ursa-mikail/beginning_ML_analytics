@@ -24,7 +24,7 @@ _02_ and _03_ draws the Basic pattern that can be adapted to solve many ML probl
 `_03_framework_for_ML_example_titanic_classification_regression.py` demonstrates a machine learning pipeline for predicting any variable target on the Titanic dataset. 
 
 #### Files
-`_02_framework_for_ML_example_titanic_classification_regression_Pclass_as_target_variable.py
+`_02_framework_for_ML_example_titanic_classification_regression_Pclass_as_target_variable.py`
 
 ##### Description
 - Data Loading: Load the Titanic dataset from a CSV file.
@@ -57,6 +57,16 @@ _02_ and _03_ draws the Basic pattern that can be adapted to solve many ML probl
     - Evaluate the regression model
     - Plot true vs predicted values
 
+### Guidelines
+- Assess all columns to have proper data types
+- Assess data governance or management that include irrelevant or improper features (not targeting specific features, or omit data for privacy)
+- Assess on how to handle text or date columns well (if it is text, may use count vectorizer then 1-hot; if it is date, date fields are to be preprocess insetad of direct 1-hot)
+- Assess to include feature engineering
+- Consider if Ordinal encoding may be better (ordered), or category for tree-based
+- Consider if other imputation strategies may be better
+- Consider if Numeric features may or may not need scaling
+- Consider and assess if different model may be better
+
 # [Under Construction]
-Last updated: 2024-12-06_0228hr
+Last updated: 2024-12-06_0251hr
 
